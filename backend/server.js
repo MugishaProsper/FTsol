@@ -5,6 +5,7 @@ import CORS from 'cors'
 import router from "./routes/authRoutes.js";
 import fileRouter from "./routes/fileRoutes.js";
 import userRouter from "./routes/userRoutes.js";
+import transaction_router from "./routes/transactionRoutes.js";
 
 
 const app = express();
@@ -17,6 +18,7 @@ dotenv.config();
 
 app.use('/api', router, fileRouter);
 app.use('/profile', userRouter)
+app.use('/api/transactions', transaction_router)
 
 ConnectToDB();
 app.listen(port, () => {

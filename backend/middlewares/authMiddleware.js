@@ -24,9 +24,9 @@ const authMiddleware = async (req, res, next) => {
 
     req.user = decoded;
 
-    if(!req.user.isVerified){
+    /* if(!req.user.isVerified){
       return res.status(400).json({ message : 'Please verify your account to access this resource'});
-    }
+    } */
     next();
     
   } catch (error) {
