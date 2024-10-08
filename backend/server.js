@@ -1,8 +1,10 @@
 import express from "express";
 import dotenv from "dotenv"
-import ConnectToDB from "./db/connection.js"
+import ConnectToDB from "./config/connection.js"
 import CORS from 'cors'
 import router from "./routes/authRoutes.js";
+import fileRouter from "./routes/fileRoutes.js";
+import userRouter from "./routes/userRoutes.js";
 
 
 const app = express();
@@ -13,7 +15,8 @@ app.use(CORS())
 dotenv.config();
 //middlewares to handle Authentication
 
-app.use('/api', router)
+app.use('/api', router, fileRouter);
+app.use('/profile', userRouter)
 
 ConnectToDB();
 app.listen(port, () => {

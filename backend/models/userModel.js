@@ -38,8 +38,27 @@ const UserSchema = new mongoose.Schema({
   password : {
     type : String,
     required : true
+  },
+  profilePicture : {
+    type : String
+  },
+  phone_number : {
+    type : String,
+    unique : true
+  },
+  isVerified : {
+    type : Boolean,
+    default : false
+  },
+  role : {
+    type : String,
+    enum : ["admin", "user"],
+    default : 'user'
+  },
+  isEmailVerified : {
+    type : Boolean,
+    default : false
   }
-
 }, { timestamps : true })
 
 const User = mongoose.model('User', UserSchema)
