@@ -1,7 +1,7 @@
 import express from "express";
 import { body } from "express-validator";
 import authMiddleware from '../middlewares/authMiddleware.js'
-import updateUserProfile from "../controllers/updateProfileController.js";
+import { updateUserProfile } from "../controllers/updatesControllers.js";
 import authorizeRoles from "../middlewares/roleMiddleware.js";
 
 const userRouter = express.Router();

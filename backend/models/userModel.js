@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import connectedAccountsSchema from "./connectedAccountsModel.js";
 
 const UserSchema = new mongoose.Schema({
   firstName : {
@@ -58,7 +59,14 @@ const UserSchema = new mongoose.Schema({
   isEmailVerified : {
     type : Boolean,
     default : false
-  }
+  },
+  isDeactivated : {
+    type : Boolean,
+    default : false
+  },
+  connectedAccounts : [connectedAccountsSchema],
+
+
 }, { timestamps : true })
 
 const User = mongoose.model('User', UserSchema)
