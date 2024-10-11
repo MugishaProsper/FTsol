@@ -3,8 +3,6 @@ import dotenv from "dotenv"
 import ConnectToDB from "./config/connection.js"
 import CORS from 'cors'
 import router from "./routes/authRoutes.js";
-import fileRouter from "./routes/fileRoutes.js";
-import userRouter from "./routes/userRoutes.js";
 import http from 'http';
 import { Server } from 'socket.io'
 
@@ -18,8 +16,8 @@ app.use(CORS())
 dotenv.config();
 
 //middlewares to handle processes
-app.use('/api', router, fileRouter);
-app.use('/api/profile', userRouter)
+app.use('/api', router);
+//app.use('/api/profile', userRouter)
 
 // Socket.io activity listeners
 io.on('connection', (socket) => {

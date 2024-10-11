@@ -2,7 +2,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel.js';
 import dotenv from 'dotenv';
-import Notification from '../models/notificationModel.js'
+
+dotenv.config();
 
 // Login functionality
 export const login = async (req, res) => {
@@ -19,7 +20,7 @@ export const login = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.jwt_secret, { expiresIn: '1h' });
 
     // Send the token and success message
-    res.status(200).json({ message: "Logged in successfully", token });
+    res.status(200).json({ message: "Logged in successfully", user, token });
 
   } catch (error) {
     console.error("Error logging in:", error.message);
@@ -29,28 +30,16 @@ export const login = async (req, res) => {
 
 // Signup functionality
 export const signup = async (req, res) => {
-  const { firstName, lastName, username, id_card, email, password,passport, phone_number } = req.body;
-
+  const { firstName, lastName, username, id_card, email, password,passport, phone_number, gender } = req.body;
   try {
     const signing_user = await User.findOne({ $or: [{ email }, { id_card }] });
-
     if (signing_user) {
       return res.status(400).json({ message: "User already exists" });
     }
-
+    const profileUrl = `https://avatar.iran.liara.run/public/${gender}?username=${username}`;
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-
-    const user = new User({
-      firstName,
-      lastName,
-      username,
-      id_card,
-      email,
-      passport,
-      password: hashedPassword,
-      phone_number
-    });
+    const user = new User({ firstName, lastName, username, id_card, email, passport, password: hashedPassword, phone_number, gender, profilePicture : profileUrl });
 
     const verificationToken = jwt.sign({id : user._id.toString()}, process.env.jwt_secret, { expiresIn : '1h'})
 
@@ -66,11 +55,8 @@ export const signup = async (req, res) => {
     }); */
 
     await user.save();
-
     const token = jwt.sign({ id: user._id }, process.env.jwt_secret, { expiresIn: '1h' });
-
-    res.status(201).json({ message: "Account created successfully. Please check your email address" });
-
+    res.status(201).json({ message: "Account created successfully. Please check your email address", user, token });
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ message: 'Server error' });

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import connectedAccountsSchema from "./connectedAccountsModel.js";
+
 
 const UserSchema = new mongoose.Schema({
   firstName : {
@@ -64,7 +64,13 @@ const UserSchema = new mongoose.Schema({
     type : Boolean,
     default : false
   },
-  connectedAccounts : [connectedAccountsSchema],
+  gender : {
+    type : String,
+    enum : ['boy', 'girl'],
+    default : 'boy',
+    required : true
+  }
+  //connectedAccounts : [connectedAccountsSchema],
 
 
 }, { timestamps : true })
