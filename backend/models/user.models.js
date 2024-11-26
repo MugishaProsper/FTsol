@@ -25,9 +25,9 @@ const transactionSchema = mongoose.Schema({
   amount : { type : Number, default : 0.0 }
 }, { timestamps : true });
 
-export const Users = mongoose.model('Users', userSchema);
-export const Codes = mongoose.model('Codes', codeSchema);
-export const Accounts = mongoose.model('Accounts', accountSchema);
-export const Transactions = mongoose.model('Transactions', transactionSchema);
+export const User = mongoose.model('Users', userSchema);
+export const Codebase = mongoose.model('Codes', codeSchema);
+export const Account = mongoose.model('Accounts', accountSchema);
+export const Transaction = mongoose.model('Transactions', transactionSchema);
 
-export default { Users, Codes, Accounts, Transactions };
+export default { User, Codebase, Account, Transaction };
