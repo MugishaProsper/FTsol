@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema({
-  firstName : { type : String, required : true },
-  lastName : { type : String, required : true },
+  fullName : { type : String, required : true },
   email : { type : String, required : true },
   password : { type : String, required : true },
 });
@@ -19,15 +18,9 @@ const accountSchema = mongoose.Schema({
   password : { type : String, required : true }
 });
 
-const transactionSchema = mongoose.Schema({
-  senderId : { type : mongoose.Schema.Types.ObjectId, ref : 'User', required : true },
-  receiverId : { type : mongoose.Schema.Types.ObjectId, ref : 'User', required : true },
-  amount : { type : Number, default : 0.0 }
-}, { timestamps : true });
 
 export const User = mongoose.model('Users', userSchema);
-export const Codebase = mongoose.model('Codes', codeSchema);
+export const Codebase = mongoose.model('verification_codes', codeSchema);
 export const Account = mongoose.model('Accounts', accountSchema);
-export const Transaction = mongoose.model('Transactions', transactionSchema);
 
-export default { User, Codebase, Account, Transaction };
+export default { User, Codebase, Account };

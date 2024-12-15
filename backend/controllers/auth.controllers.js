@@ -3,9 +3,10 @@ import { User, Codebase } from '../models/user.models.js';
 import { generateTokenAndSetCookie } from '../plugins/generate.auth.token.js';
 import { generateVerificationCode } from '../plugins/generate.verification.code.js';
 import bcrypt from 'bcryptjs';
+import { createTransactionAccount } from './account.controllers.js';
 
 export const register = async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { fullName, email, password } = req.body;
   try {
     const existingUser = await User.findOne({ email : email });
     if(existingUser){
@@ -14,11 +15,12 @@ export const register = async (req, res) => {
     const verificationCode = generateVerificationCode();
     await sendVerificationCode(email, verificationCode);
     const hashedPassword = await bcrypt.hash(password, 12);
-    const newUser = new User({ firstName, lastName, email, email, password : hashedPassword });
+    const newUser = new User({ fullName, email, email, password : hashedPassword });
     await newUser.save();
     const newCodesRepo = new Codebase({ account : newUser._id, verificationCode });
     await newCodesRepo.save();
-    res.status(200).json({ message : "successfully created user", newUser })
+    await createTransactionAccount();
+    res.status(200).json({ message : "successfully created user" })
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ message : "Server error" });
@@ -30,7 +32,7 @@ export const login = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if(!user){
-      return res.status(401).json({ message : "User already exists" });
+      return res.status(401).json({ message : "User does not exist" });
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if(!isPasswordValid){

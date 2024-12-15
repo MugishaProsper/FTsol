@@ -1,22 +1,23 @@
-import { Account } from "../models/user.models";
+import { sendAccountDetails } from "../config/email.config.js";
+import { Account } from "../models/user.models.js";
+import { generateRandomPassword } from "../plugins/generate.random.password.js";
+import bcrypt from 'bcryptjs'
 
 
-export const createTransactionAccount = async (req, res) => {
-  const userId = req.user._id;
-  const { password } = req.body;
+export const createTransactionAccount = async () => {
   try {
-    // Find if another account with similar owner exists
-    const existingAccount = await Account.findOne({ owner : userId });
-    if(existingAccount){
-      return res.status(400).json({ message : "Account already exists" });
-    }
+    const password = generateRandomPassword();
     const hashedPassword = await bcrypt.hash(password, 12);
+    const accountDetails = {
+      accountOwner : `${user.fullName} - ${user.email}`,
+      password : `${password}`,
+      message : `Please don't share this password with someone else. You can change it anytime`
+    }
+    await sendAccountDetails(user.email, accountDetails)
     const newAccount = new Account({ owner : userId, password : hashedPassword });
     await newAccount.save();
-    return res.status(200).json({ message : "Account created successfully", newAccount })
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ message : "Server error"})
   }
 }
 export const fetchAccountDetails = async (req, res) => {

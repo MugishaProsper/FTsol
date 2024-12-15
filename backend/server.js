@@ -3,6 +3,7 @@ import { connectToDatabase } from './config/db.config.js';
 import authRouter from './routes/auth.routes.js';
 import cookieParser from 'cookie-parser';
 import path from 'path'
+import transactionRouter from './routes/transactions.routes.js';
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(cookieParser())
 
 app.use('/api/auth', authRouter);
+app.use('/api', transactionRouter)
 
 app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
