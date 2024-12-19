@@ -13,8 +13,8 @@ const codeSchema = mongoose.Schema({
 })
 
 const accountSchema = mongoose.Schema({
-  owner : { type : mongoose.Schema.Types.ObjectId, ref : 'User', required : true },
-  balance : { type : Number, required : true },
+  user : { type : mongoose.Schema.Types.ObjectId, ref : 'User', required : true },
+  balance : { type : Number, default : 0.0 },
   password : { type : String, required : true }
 });
 

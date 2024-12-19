@@ -17,8 +17,8 @@ const notificationSchema = mongoose.Schema({
   isRead : { type : Boolean, default : false }
 }, { timestamps : true })
 
-const Messages = mongoose.model('Messages', messageSchema);
-const Conversations = mongoose.model('Conversations', conversationSchema);
-const Notifications = mongoose.model('Notification', notificationSchema);
+export const Message = mongoose.model('Messages', messageSchema);
+export const Conversation = mongoose.model('Conversations', conversationSchema);
+export const Notification = mongoose.model('Notification', notificationSchema);
 
-export default { Messages, Conversations, Notifications };
+export default { Message, Conversation, Notification };

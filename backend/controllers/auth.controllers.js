@@ -3,7 +3,7 @@ import { User, Codebase } from '../models/user.models.js';
 import { generateTokenAndSetCookie } from '../plugins/generate.auth.token.js';
 import { generateVerificationCode } from '../plugins/generate.verification.code.js';
 import bcrypt from 'bcryptjs';
-import { createTransactionAccount } from './account.controllers.js';
+//import { createTransactionAccount } from './account.controllers.js';
 
 export const register = async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -17,9 +17,6 @@ export const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 12);
     const newUser = new User({ fullName, email, email, password : hashedPassword });
     await newUser.save();
-    const newCodesRepo = new Codebase({ account : newUser._id, verificationCode });
-    await newCodesRepo.save();
-    await createTransactionAccount();
     res.status(200).json({ message : "successfully created user" })
   } catch (error) {
     console.log(error.message);

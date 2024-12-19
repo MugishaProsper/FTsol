@@ -20,7 +20,6 @@ export const sendVerificationCode = async (receiverEmail, verificationCode) => {
 
   try {
     transport.sendMail(mailOptions);
-    console.log(`Email sent successfully to ${receiverEmail}`)
   } catch (error) {
     console.log(error.message);
   }

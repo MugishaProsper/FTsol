@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const transactionSchema = mongoose.Schema({
-  senderId : { type : mongoose.Schema.Types.ObjectId, ref : 'User', required : true },
-  receiverId : { type : mongoose.Schema.Types.ObjectId, ref : 'User', required : true },
+  senderAddress : { type : mongoose.Schema.Types.ObjectId, ref : 'Account', required : true },
+  receiverAddress : { type : mongoose.Schema.Types.ObjectId, ref : 'Account', required : true },
   amount : { type : Number, default : 0.0 }
 }, { timestamps : true });
 
